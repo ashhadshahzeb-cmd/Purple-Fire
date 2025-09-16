@@ -3,7 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Purple Fire/title>
+    <title>Free AI-Generated Conversion Report - Pimento</title>
+   
+   
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+   
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 
@@ -27,13 +33,13 @@
         background: #fff;
         min-height: 100vh;
         display: flex;
-        align-items: center;
+        align-items: flex-start; /* Changed from center to allow scrolling */
         justify-content: center;
         padding: 20px;
         position: relative;
-        overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: auto; /* Enable scrolling on the body */
       }
-
       .shape {
         position: fixed;
         border: 2px solid var(--brand);
@@ -89,9 +95,6 @@
           rgb(0, 255, 21),
           transparent
         );
-        box-shadow: 0 0 10px white;
-        opacity: 0.5;
-        z-index: 3;
       }
       .neon-line-1 {
         width: 300px;
@@ -194,11 +197,13 @@
 
       .form-card {
         backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 30px;
         padding: 60px;
         position: relative;
         transform-style: preserve-3d;
-     }
+        animation: cardEntrance 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
       @keyframes cardEntrance {
         0% {
           opacity: 0;
@@ -213,9 +218,7 @@
       .step {
         display: none;
         animation: stepFadeIn 0.5s ease-out;
-        max-height: 70vh;
-        overflow-y: auto;
-        padding-right: 10px;
+        /* Removed max-height and overflow-y to disable card scrolling */
       }
       .step.active {
         display: block;
@@ -396,9 +399,10 @@
         text-align: center;
       }
       .description {
-        font-size: 16px;
+        font-size: 60px;
         line-height: 1.8;
         color: #000;
+        margin-top: 20px;
         text-align: center;
         margin-bottom: 30px;
         max-width: 450px;
@@ -539,7 +543,7 @@
         transition: opacity 0.2s ease;
       }
       .tooltip-text::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         right: 100%;
@@ -566,7 +570,7 @@
         opacity: 0;
         animation: buttonSlideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)
           1.4s forwards;
-      
+
         background-color: #000;
         color: #fff;
       }
@@ -807,7 +811,7 @@
         background: #fff;
         overflow: hidden; /* For scan overlay */
       }
-     
+
       #screenshot-container {
         width: 100%;
         max-height: 400px; /* Focus on hero section */
@@ -994,30 +998,39 @@
         margin-bottom: 12px;
         color: rgba(0, 0, 0, 0.8);
       }
-.scan-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(76, 175, 80, 0.3) 50%, /* Slightly more opaque for visibility */
-    transparent 100%
-  );
-  transform: translateX(-100%);
-  animation: scan 2s linear infinite;
-  z-index: 1;
-}
-@keyframes scan {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
+
+      .scan-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(76, 175, 80, 0.4) 50%,
+          /* Increased opacity for better visibility */ transparent 100%
+        );
+        transform: translateX(-100%);
+        animation: scan 3s linear infinite; /* Slower for drama */
+        z-index: 1;
+        box-shadow: 0 0 20px rgba(76, 175, 80, 0.3); /* Add glow */
+      }
+
+      @keyframes scan {
+        0% {
+          transform: translateX(-100%);
+          opacity: 0.8; /* Fade in */
+        }
+        50% {
+          opacity: 1;
+          box-shadow: 0 0 40px rgba(76, 175, 80, 0.6); /* Peak glow */
+        }
+        100% {
+          transform: translateX(100%);
+          opacity: 0.8; /* Fade out */
+        }
+      }
       .score-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -1077,12 +1090,12 @@
       .calculation-table td {
         padding: 12px;
         text-align: left;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid #4caf50;
       }
       .calculation-table th {
         background: rgba(0, 0, 0, 0.05);
         font-weight: 700;
-        color: var(--brand);
+        color: black;
       }
       .calculation-table td {
         color: rgba(0, 0, 0, 0.8);
@@ -1101,6 +1114,9 @@
         clip: rect(0, 0, 0, 0);
         white-space: nowrap;
         border: 0;
+      }
+      .ai-text {
+        color: black;
       }
 
       #step7-screenshot {
@@ -1209,7 +1225,115 @@
           left: 20px;
           top: -20px;
         }
+
+        .choices__inner {
+          background: #fff;
+          border-radius: 12px;
+          border: 1px solid #ddd;
+          padding: 12px;
+          font-size: 14px;
+          min-height: 50px;
+        }
+
+        .choices__list--dropdown {
+          border-radius: 12px;
+          border: 1px solid #ccc;
+          max-height: 220px;
+          overflow-y: auto;
+        }
+
+        .choices__item--choice {
+          white-space: normal !important; /* Allow long text wrap */
+          line-height: 1.4;
+          padding: 10px;
+          font-size: 13px;
+        }
+
+        @media (max-width: 640px) {
+          .choices__inner {
+            font-size: 13px;
+            padding: 10px;
+          }
+          .choices__list--dropdown {
+            font-size: 13px;
+          }
+        }
       }
+
+
+      .slider-wrapper {
+  overflow: hidden;
+  position: relative;
+  border-radius: 16px;
+  margin-top: 20px;
+}
+
+.cards {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.card {
+  flex: 0 0 100%;
+  padding: 16px 20px;
+  background: #1e293b; /* dark bluish background */
+  border-radius: 12px;
+  border: 3px solid #4caf50;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px; /* space between cards */
+  transition: all 0.3s ease;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between; /* left title, right badge */
+  align-items: center;
+}
+
+.card-header h3 {
+  font-size: 16px;
+  margin: 0;
+  font-weight: 600;
+  color: #fff;
+}
+
+.badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badge.high {
+  background-color: rgba(255, 59, 59, 0.1);
+  color: #ff3b3b;
+  border: 1px solid rgba(255, 59, 59, 0.4);
+}
+
+.badge.medium {
+  background-color: rgba(250, 204, 21, 0.1);
+  color: #facc15;
+  border: 1px solid rgba(250, 204, 21, 0.4);
+}
+
+.uplift {
+  font-size: 18px;
+  font-weight: 700;
+  color: #39FF14;
+  text-align: right; /* right aligned like screenshot */
+}
+
+.description {
+  font-size: 20px;
+  color: #94a3b8; /* light grey */
+  line-height: 1.4;
+}
+
+
+
     </style>
   </head>
   <body>
@@ -1217,7 +1341,6 @@
       <div class="liquid-transition">
         <div class="liquid-circle" id="liquidCircle"></div>
       </div>
-    
     </div>
 
     <div class="grid-bg"></div>
@@ -1273,9 +1396,60 @@
               <span>Only 7 free audits remaining today</span>
             </div>
           </div>
-          <div class="report-slider">
-            <div class="slide-content" id="slideContent"></div>
-          </div>
+      <div class="slider-wrapper">
+             <div class="SliderText" ><h1 style="font-size: 35px;">Issues Our AI Can Find</h1></div>
+
+  <div class="cards" id="cardSlider">
+    <!-- Cards -->
+    <div class="card">
+      <div class="card-header">
+        <h3 >Checkout Optimization</h3>
+        <span class="badge high">High</span>
+      </div>
+      <div class="uplift">+23% Potential Uplift</div>
+      <div class="description">
+        <strong>Complex checkout process with 5+ steps</strong><br>
+        Your checkout has too many steps, causing 67% cart abandonment.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3 >Mobile Experience</h3>
+        <span class="badge high">High</span>
+      </div>
+      <div class="uplift">+18% Potential Uplift</div>
+      <div class="description">
+        <strong>Mobile site loads 4.2s slower than desktop</strong><br>
+        Mobile users are abandoning due to slow load times.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3 >Trust Signals</h3>
+        <span class="badge medium">Medium</span>
+      </div>
+      <div class="uplift">+12% Potential Uplift</div>
+      <div class="description">
+        <strong>Missing security badges and testimonials</strong><br>
+        Lack of trust indicators reducing conversion confidence.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3 >Product Pages</h3>
+        <span class="badge medium">Medium</span>
+      </div>
+      <div class="uplift">+8% Potential Uplift</div>
+      <div class="description">
+        <strong>Product images lack zoom functionality</strong><br>
+        Customers can't examine products closely before buying.
+      </div>
+    </div>
+  </div>
+</div>
         </div>
 
         <div class="step" id="step2">
@@ -1304,18 +1478,23 @@
             Please select a challenge to continue.
           </div>
           <div class="footer-text">
-            <strong>We've audited +1,000 Shopify Stores</strong> using AI.
+            <strong>We've audited +1,000 Shopify Stores</strong>
+            <span class="ai-text" style="color: black">using AI.</span>
           </div>
           <button class="cta-button">Continue →</button>
         </div>
 
         <div class="step" id="step3">
-          <h2>Let's get started with your numbers!</h2>
+          <h2>Let's Get Started With Your Numbers!</h2>
           <div class="form-group">
             <label>
               Monthly revenue ($)
-              <span class="tooltip">?
-                <span class="tooltip-text">Your store's total revenue per month from all sales channels.</span>
+              <span class="tooltip"
+                >?
+                <span class="tooltip-text"
+                  >Your store's total revenue per month from all sales
+                  channels.</span
+                >
               </span>
             </label>
             <input
@@ -1333,8 +1512,12 @@
           <div class="form-group">
             <label>
               Monthly ad spend ($)
-              <span class="tooltip">?
-                <span class="tooltip-text">Total amount spent on advertising across all channels (e.g., Google Ads, Facebook Ads).</span>
+              <span class="tooltip"
+                >?
+                <span class="tooltip-text"
+                  >Total amount spent on advertising across all channels (e.g.,
+                  Google Ads, Facebook Ads).</span
+                >
               </span>
             </label>
             <input
@@ -1349,9 +1532,11 @@
               style="display: none"
             ></div>
           </div>
-          <div class="footer-text" style="color: #f59e0b">
-            The audit will not work if you do not submit real numbers.
+          <div class="footer-text">
+            <strong>We've audited +1,000 Shopify Stores</strong>
+            <span class="ai-text" style="color: black">using AI.</span>
           </div>
+
           <button class="cta-button">Continue →</button>
         </div>
 
@@ -1360,8 +1545,9 @@
           <div class="form-group">
             <label>
               Conversion rate (%)
-              <span class="tooltip">?
-                <span class="tooltip-text">Percentage of website visitors who complete a purchase (e.g., 2% means 2 out of 100 visitors buy).</span>
+              <span class="tooltip"
+                >?
+                <span class="tooltip-text">Write 2.5 if your CVR is 2.5%.</span>
               </span>
             </label>
             <input
@@ -1382,8 +1568,12 @@
           <div class="form-group">
             <label>
               Average order value ($)
-              <span class="tooltip">?
-                <span class="tooltip-text">Average dollar amount per order, calculated as total revenue divided by number of orders.</span>
+              <span class="tooltip"
+                >?
+                <span class="tooltip-text"
+                  >Average dollar amount per order, calculated as total revenue
+                  divided by number of orders.</span
+                >
               </span>
             </label>
             <input
@@ -1397,14 +1587,17 @@
             <div class="error-text" id="err-aov" style="display: none"></div>
           </div>
           <div class="form-group">
-           <label>
-  Subscription rate (%) <span style="color: #888; font-weight: normal;">(Optional)</span>
-  <span class="tooltip">?
-    <span class="tooltip-text">
-      Percentage of customers who opt for a subscription plan, if applicable to your store.
-    </span>
-  </span>
-</label>
+            <label>
+              Subscription rate (%)
+              <span style="color: #888; font-weight: normal">(Optional)</span>
+              <span class="tooltip"
+                >?
+                <span class="tooltip-text">
+                  Percentage of customers who opt for a subscription plan, if
+                  applicable to your store.
+                </span>
+              </span>
+            </label>
             <input
               type="number"
               id="subscriptionRate"
@@ -1420,7 +1613,8 @@
             ></div>
           </div>
           <div class="footer-text">
-            <strong>We've audited +1,000 Shopify Stores</strong> using AI.
+            <strong>We've audited +1,000 Shopify Stores</strong>
+            <span class="ai-text" style="color: black">using AI.</span>
           </div>
           <button class="cta-button">Continue →</button>
         </div>
@@ -1434,6 +1628,7 @@
           <div class="warning-box">
             ⚠️ Audit will not work if fake numbers are used.
           </div>
+
           <div class="form-group">
             <label>Website URL</label>
             <input
@@ -1448,6 +1643,7 @@
               style="display: none"
             ></div>
           </div>
+
           <div class="form-group">
             <label>Type of page</label>
             <select id="pageType" required>
@@ -1464,77 +1660,95 @@
               style="display: none"
             ></div>
           </div>
-          <div class="form-group">
-            <label>Industry</label>
-            <select id="industry" required>
-              <option value="">Select Industry</option>
-              <option value="fashion">Fashion & Apparel</option>
-              <option value="health">Health & Beauty</option>
-              <option value="home">Home & Garden</option>
-              <option value="electronics">Electronics</option>
-              <option value="food">Food & Beverage</option>
-              <option value="jewelry">Jewelry & Accessories</option>
-              <option value="sports">Sports & Recreation</option>
-              <option value="other">Other</option>
-            </select>
-            <div
-              class="error-text"
-              id="err-industry"
-              style="display: none"
-            ></div>
-          </div>
-          <div class="footer-text">
-            That way the AI is better at analyzing it.
-          </div>
-          <button class="cta-button">Generate My AI Report →</button>
-        </div>
-
-    <div class="step" id="step6">
-  <div class="analysis-wrap">
-    <h3 class="analysis-title">Analyzing your URL...</h3>
-    <p class="analyzing-url" id="analyzing-url">https://www.yourstore.com</p>
-    <div class="gt-browser-window">
-      <div class="browser-header">
-        <div class="browser-controls">
-          <span class="browser-dot red"></span>
-          <span class="browser-dot yellow"></span>
-          <span class="browser-dot green"></span>
-        </div>
-        <div class="browser-url-bar">
-          <span id="browser-url">https://www.yourstore.com</span>
-        </div>
-      </div>
-      <div class="browser-content">
-        <div class="scan-overlay"></div> <!-- Add the scan overlay here -->
-        <div id="screenshot-container">
-          <img id="screenshot" alt="Website Hero Section Screenshot" src="https://via.placeholder.com/900x400?text=Loading+Screenshot">
-        </div>
-      </div>
-    </div>
-    <div class="analysis-meta">
-      <div class="meta-chip">
-        Est. time left: <strong id="timeLeft">—</strong>
-      </div>
-      <div class="meta-chip">Live tasks updating</div>
-    </div>
-    <p class="analysis-note">This typically takes 10–20 seconds.</p>
-    <ul class="analysis-list" id="analysisList"></ul>
-    <div id="ariaLive" class="sr-only" aria-live="polite"></div>
+<div class="form-group">
+    <label>Industry</label>
+    <select id="industry" required>
+      <option value="">Select Industry</option>
+      <option value="fashion">Fashion & Apparel – Clothing, streetwear, athleisure, niche apparel brands</option>
+      <option value="beauty">Beauty & Personal Care – Skincare, cosmetics, haircare, grooming</option>
+      <option value="health">Health & Wellness – Supplements, fitness products, CBD, holistic health</option>
+      <option value="food">Food & Beverage – Snacks, coffee, alcohol, meal kits, specialty drinks</option>
+      <option value="home">Home Goods & Furniture – Furniture, bedding, kitchenware, décor</option>
+      <option value="electronics">Consumer Electronics & Tech – Headphones, wearables, phone/laptop accessories, smart home devices</option>
+      <option value="jewelry">Jewelry & Accessories – Watches, fine jewelry, sunglasses, bags</option>
+      <option value="pets">Pet Products – Food, supplements, toys, accessories</option>
+      <option value="baby">Baby & Kids Products – Clothing, toys, educational products, gear</option>
+      <option value="sports">Outdoor, Sports & Lifestyle Gear – Athletic equipment, camping gear, bicycles, performance footwear</option>
+      <option value="other">Other</option>
+    </select>
+    <div class="error-text" id="err-industry" style="display: none"></div>
   </div>
+
+  <div class="footer-text">
+    That way the AI is better at analyzing it.
+  </div>
+  <button class="cta-button">Generate My AI Report →</button>
 </div>
+
+        <div class="step" id="step6">
+          <div class="analysis-wrap">
+            <h3 class="analysis-title">Analyzing your URL...</h3>
+            <p class="analyzing-url" id="analyzing-url">
+              https://www.yourstore.com
+            </p>
+            <div class="gt-browser-window">
+              <div class="browser-header">
+                <div class="browser-controls">
+                  <span class="browser-dot red"></span>
+                  <span class="browser-dot yellow"></span>
+                  <span class="browser-dot green"></span>
+                </div>
+                <div class="browser-url-bar">
+                  <span id="browser-url">https://www.yourstore.com</span>
+                </div>
+              </div>
+              <div class="browser-content">
+                <div class="scan-overlay"></div>
+                <!-- Add the scan overlay here -->
+                <div id="screenshot-container">
+                  <img
+                    id="screenshot"
+                    alt="Website Hero Section Screenshot"
+                    src="https://via.placeholder.com/900x400?text=Loading+Screenshot"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="analysis-meta">
+              <div class="meta-chip">
+                Est. time left: <strong id="timeLeft">—</strong>
+              </div>
+              <div class="meta-chip">Live tasks updating</div>
+            </div>
+            <p class="analysis-note">This typically takes 10–20 seconds.</p>
+            <ul class="analysis-list" id="analysisList"></ul>
+            <div id="ariaLive" class="sr-only" aria-live="polite"></div>
+          </div>
+        </div>
         <div class="step" id="step7">
           <h2>AI Conversion Report is completed!</h2>
           <p class="description">
             AI has detected <strong>21 improvements</strong> on
             <span id="userDomain">yourstore.com</span>
           </p>
-          <img id="step7-screenshot" src="https://staging.kodexolabs.com/wp-content/uploads/2025/09/website.png" alt="Website Preview" class="results-image">
+          <img
+            id="step7-screenshot"
+            src="https://staging.kodexolabs.com/wp-content/uploads/2025/09/website.png"
+            alt="Website Preview"
+            class="results-image"
+          />
+        
           <div class="results-card">
             <h3 style="color: black; margin-bottom: 20px">
               Estimated Potential Revenue Uplift
             </h3>
-            <p class="description" id="upliftCalculation" style="text-align: left;">
-              Based on your industry and current conversion rate, here's the potential revenue uplift:
+            <p
+              class="description"
+              id="upliftCalculation"
+              style="text-align: left"
+            >
+              Based on your industry and current conversion rate, here's the
+              potential revenue uplift:
             </p>
             <table class="calculation-table">
               <tr>
@@ -1554,6 +1768,14 @@
                 <td id="conversionRateUplift"></td>
               </tr>
               <tr>
+                <td>Your Current Average Order Value</td>
+                <td id="currentAov"></td>
+              </tr>
+              <tr>
+                <td>Potential Average Order Value</td>
+                <td id="potentialAov"></td>
+              </tr>
+              <tr>
                 <td>Estimated Monthly Revenue Uplift</td>
                 <td id="revenuePotential"></td>
               </tr>
@@ -1563,9 +1785,12 @@
               </tr>
             </table>
           </div>
+
           <div class="results-card">
             <h3 style="color: black; margin-bottom: 20px">
-              Critical Issues Found <br> These issues are partly the reason why your <span id="mainMetric"></span> is low.
+              Critical Issues Found <br />
+              These issues are partly the reason why your
+              <span id="mainMetric"></span> is low.
             </h3>
             <div class="issue-item priority-high">
               🔴 A total of 6 High priority issues were found
@@ -1576,669 +1801,1083 @@
             <div class="issue-item priority-low">
               🟢 A total of 6 quick wins were found
             </div>
-          </div>
-          <div class="results-card">
-            <h3 style="color: var(--brand); margin-bottom: 20px">
-              Performance Scorecards
-            </h3>
-            <div class="score-grid">
-              <div class="score-item">
-                <div class="score-value">32/100</div>
-                <div class="score-label">
-                  Site Performance (Desktop: 32 | Mobile: 28)
-                </div>
-              </div>
-              <div class="score-item">
-                <div class="score-value">23</div>
-                <div class="score-label">Mobile Usability Issues</div>
-              </div>
-              <div class="score-item">
-                <div class="score-value">45/100</div>
-                <div class="score-label">Technical SEO</div>
-              </div>
-              <div class="score-item">
-                <div class="score-value">62/100</div>
-                <div class="score-label">UX Score</div>
-              </div>
+            <div
+              class="issue-item priority-low"
+              style="
+                font-style: italic;
+                color: #10b981;
+                border-left-color: #10b981;
+              "
+            >
+              A full split-test pipeline with 6 using the PXL framework has been
+              created for you and is available in your audit
             </div>
           </div>
+    <div class="results-card">
+ <h3>
+  Performance Scorecards 
+  <span style="font-size:14px; color:#aaa; font-weight:normal; margin-left:6px;">
+    (1-100)
+  </span>
+</h3>
+  <div class="score-grid">
+    <div class="score-item">
+      <div class="score-value" id="overallCROScore">0</div>
+      <div class="score-label">Overall CRO Score</div>
+    </div>
+    <div class="score-item">
+      <div class="score-value" id="uxScore">0</div>
+      <div class="score-label">UX Score</div>
+    </div>
+    <div class="score-item">
+      <div class="score-value" id="aovScore">0</div>
+      <div class="score-label">AOV Score</div>
+    </div>
+    <div class="score-item">
+      <div class="score-value" id="copyMessagingScore">0</div>
+      <div class="score-label">Copy Messaging Score</div>
+    </div>
+  </div>
+</div>
 
-          <h3 style="color: var(--brand); text-align: center; margin: 30px 0">
+
+          <h3
+            style="
+              color: black;
+              text-align: center;
+              margin: 30px 0;
+              font-size: 28px;
+            "
+          >
             Want to see the full report and all the issues uncovered?
           </h3>
 
           <!-- New: Lead capture fields above the CTA -->
           <div class="results-card" id="leadCaptureCard">
-            <h3 style="color: var(--brand); margin-bottom: 12px">Your details</h3>
+            <h3 style="color: black; margin-bottom: 12px">Your details</h3>
 
             <div class="form-group">
               <label for="userName">Name</label>
-              <input type="text" id="userName" placeholder="Your full name" required />
-              <div class="error-text" id="err-userName" style="display: none"></div>
+              <input
+                type="text"
+                id="userName"
+                placeholder="Your full name"
+                required
+              />
+              <div
+                class="error-text"
+                id="err-userName"
+                style="display: none"
+              ></div>
             </div>
 
             <div class="form-group">
               <label for="userEmail">Email</label>
-              <input type="email" id="userEmail" placeholder="you@company.com" required />
-              <div class="error-text" id="err-userEmail" style="display: none"></div>
+              <input
+                type="email"
+                id="userEmail"
+                placeholder="you@company.com"
+                required
+              />
+              <div
+                class="error-text"
+                id="err-userEmail"
+                style="display: none"
+              ></div>
             </div>
 
             <div class="form-group">
               <label for="userPhone">Phone number</label>
-              <input type="tel" id="userPhone" inputmode="tel" placeholder="+1 555 123 4567" required />
-              <div class="error-text" id="err-userPhone" style="display: none"></div>
+              <input
+                type="tel"
+                id="userPhone"
+                inputmode="tel"
+                placeholder="+1 555 123 4567"
+                required
+              />
+              <div
+                class="error-text"
+                id="err-userPhone"
+                style="display: none"
+              ></div>
             </div>
           </div>
 
-          <button class="cta-button">Book Your Free Strategy Call →</button>
+          <button class="cta-button">GET YOUR FULL CRO AUDIT</button>
         </div>
       </div>
     </div>
-
-    <script>
-      let currentStep = 1;
-const totalSteps = 7;
-const steps = document.querySelectorAll(".step");
-const progressSteps = document.querySelectorAll(".progress-step");
-const progressContainer = document.getElementById("progressContainer");
-
-const topProgressEl = document.getElementById("topProgress");
-const currentStepText = document.getElementById("currentStepText");
-const totalStepsText = document.getElementById("totalStepsText");
-const progressFillEl = document.getElementById("progressFill");
-const progressPercentEl = document.getElementById("progressPercent");
-if (totalStepsText) totalStepsText.textContent = totalSteps;
-
-const analysis = {
-  rafId: null,
-  timeouts: [],
-  startTime: 0,
-  totalDuration: 0,
-  running: false,
-  countdownId: null,
-};
-
-// Industry benchmark conversion rates
-const benchmarkConversionRates = {
-  fashion: 2.5,
-  health: 3.0,
-  home: 2.8,
-  electronics: 2.0,
-  food: 2.7,
-  jewelry: 2.3,
-  sports: 2.4,
-  other: 2.5
-};
-
-// Store form data
-let formData = {
-  challenge: '',
-  monthlyRevenue: 0,
-  monthlyAdSpend: 0,
-  conversionRate: 0,
-  aov: 0,
-  subscriptionRate: 0,
-  websiteUrl: '',
-  pageType: '',
-  industry: '',
-  name: '',
-  email: '',
-  phone: ''
-};
-
-function formatCurrency(inputEl) {
-  let value = inputEl.value.replace(/[^0-9.]/g, '');
-  if (value === '' || isNaN(parseFloat(value))) {
-    inputEl.value = '';
-    return;
+   <script>
+  // ================= SCORECARD ANIMATION FUNCTIONS =================
+  // Generate random score between min and max (integers only)
+  function randomScore(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
-  const num = parseFloat(value);
-  inputEl.value = '$' + num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
 
-function parseCurrency(value) {
-  return parseFloat(value.replace(/[^0-9.]/g, '')) || 0;
-}
-
-// Apply currency formatting to Step 3 inputs
-// Apply currency formatting to Step 3 inputs
-['monthlyRevenue', 'monthlyAdSpend'].forEach(id => {
-  const input = document.getElementById(id);
-  
-  // Format currency on input
-  input.addEventListener('input', () => {
-    clearFieldError(input);
-    // Allow user to type without immediate formatting to avoid cursor issues
-  });
-
-  // Format currency on blur (when user leaves the input field)
-  input.addEventListener('blur', () => {
-    if (input.value.trim() === '') return; // Skip if empty
-    formatCurrency(input);
-  });
-
-  // Optional: Format after a short delay to catch completed input
-  let typingTimer;
-  input.addEventListener('input', () => {
-    clearTimeout(typingTimer);
-    typingTimer = setTimeout(() => {
-      if (input.value.trim() !== '') {
-        formatCurrency(input);
+  // Animate counter from start to target value
+  function animateCounter(element, start, target, duration = 10000, isDecimal = false) {
+    if (!element) return;
+    
+    let current = start;
+    const startTime = performance.now();
+    
+    function updateCounter(timestamp) {
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 30);
+      
+      // Use easing function for smoother animation
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      current = start + (target - start) * easeOutQuart;
+      
+      // Display the current value
+      if (isDecimal) {
+        element.textContent = current.toFixed(2);
+      } else {
+        element.textContent = Math.floor(current);
       }
-    }, 1000); // 1-second delay to assume user has finished typing
-  });
-});
-
-// Updated formatCurrency function
-function formatCurrency(inputEl) {
-  let value = inputEl.value.replace(/[^0-9.]/g, ''); // Remove non-numeric characters except decimal
-  if (value === '' || isNaN(parseFloat(value))) {
-    inputEl.value = ''; // Clear if invalid
-    return;
-  }
-  const num = parseFloat(value);
-  // Format with $ and ensure 2 decimal places
-  inputEl.value = '$' + num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
-function cancelAnalysis() {
-  if (analysis.rafId) cancelAnimationFrame(analysis.rafId);
-  analysis.timeouts.forEach((t) => clearTimeout(t));
-  analysis.timeouts = [];
-  if (analysis.countdownId) clearInterval(analysis.countdownId);
-  analysis.running = false;
-}
-
-function showStep(stepNumber) {
-  steps.forEach((s) => s.classList.remove("active"));
-  const active = document.getElementById(`step${stepNumber}`);
-  if (active) active.classList.add("active");
-
-  progressContainer.style.display =
-    stepNumber >= 2 && stepNumber <= 5 ? "flex" : "none";
-
-  progressSteps.forEach((p, i) => {
-    const idx = i + 2;
-    p.classList.remove("active", "completed");
-    if (stepNumber > idx) p.classList.add("completed");
-    else if (stepNumber === idx) p.classList.add("active");
-  });
-
-  topProgressEl.style.display = "block";
-  currentStepText.textContent = Math.min(stepNumber, totalSteps);
-  const percent = Math.round(((stepNumber - 1) / (totalSteps - 1)) * 100);
-  progressFillEl.style.width = percent + "%";
-  progressPercentEl.textContent = percent + "%";
-}
-
-function nextStep() {
-  if (currentStep < totalSteps) {
-    currentStep++;
-    showStep(currentStep);
-  }
-}
-function previousStep() {
-  cancelAnalysis();
-  if (currentStep > 1) {
-    currentStep--;
-    showStep(currentStep);
-  }
-}
-
-function selectChallenge(el, value) {
-  document
-    .querySelectorAll(".challenge-card")
-    .forEach((c) => c.classList.remove("selected"));
-  el.classList.add("selected");
-  formData.challenge = value;
-}
-
-function showFieldError(inputEl, msg) {
-  if (!inputEl) return;
-  inputEl.classList.add("input-error");
-  const err = document.getElementById("err-" + inputEl.id);
-  if (err) {
-    err.textContent = msg;
-    err.style.display = "block";
-  }
-}
-function clearFieldError(inputEl) {
-  if (!inputEl) return;
-  inputEl.classList.remove("input-error");
-  const err = document.getElementById("err-" + inputEl.id);
-  if (err) {
-    err.textContent = "";
-    err.style.display = "none";
-  }
-}
-document.querySelectorAll("input,select").forEach((el) => {
-  el.addEventListener("input", () => clearFieldError(el));
-  el.addEventListener("change", () => clearFieldError(el));
-});
-
-function validateStep(stepId) {
-  if (stepId === "step1") return true;
-  if (stepId === "step2") {
-    const selected = document.querySelector(".challenge-card.selected");
-    const err = document.getElementById("challengeError");
-    if (!selected) {
-      err.style.display = "block";
-      return false;
+      
+      // Continue animation if not finished
+      if (progress < 1) {
+        requestAnimationFrame(updateCounter);
+      } else {
+        // Ensure final value is exactly the target
+        element.textContent = isDecimal ? target.toFixed(2) : target;
+      }
     }
-    err.style.display = "none";
-    return true;
+    
+    requestAnimationFrame(updateCounter);
   }
-  if (stepId === "step3") {
-    let valid = true;
-    const rev = document.getElementById("monthlyRevenue");
-    const ad = document.getElementById("monthlyAdSpend");
-    const revVal = parseCurrency(rev.value);
-    const adVal = parseCurrency(ad.value);
-    formData.monthlyRevenue = revVal;
-    formData.monthlyAdSpend = adVal;
-    if (!(revVal >= 0)) {
-      showFieldError(rev, "Please enter a valid monthly revenue (>= 0).");
-      valid = false;
+
+  // Update the scorecard with animated counters
+  function updateScoreCard() {
+    // Generate random target scores between 30 and 70
+    const targetUXScore = randomScore(30, 70);
+    const targetAOVScore = randomScore(30, 70);
+    const targetCopyScore = randomScore(30, 70);
+    
+    // Calculate Overall CRO Score as the average of the three category scores
+    const targetOverallScore = Math.round((targetUXScore + targetAOVScore + targetCopyScore) / 3);
+    
+    // Get the HTML elements
+    const overallElement = document.getElementById("overallCROScore");
+    const uxElement = document.getElementById("uxScore");
+    const aovElement = document.getElementById("aovScore");
+    const copyElement = document.getElementById("copyMessagingScore");
+    
+    // Check if elements exist before animating
+    if (overallElement && uxElement && aovElement && copyElement) {
+      // Animate all counters starting from 0 to their target values
+      animateCounter(overallElement, 0, targetOverallScore, 10000, false);
+      animateCounter(uxElement, 0, targetUXScore, 10000, false);
+      animateCounter(aovElement, 0, targetAOVScore, 10000, false);
+      animateCounter(copyElement, 0, targetCopyScore, 10000, false);
     }
-    if (!(adVal >= 0)) {
-      showFieldError(ad, "Please enter a valid monthly ad spend (>= 0).");
-      valid = false;
-    }
-    return valid;
   }
-  if (stepId === "step4") {
-    let valid = true;
-    const cr = document.getElementById("conversionRate");
-    const aov = document.getElementById("aov");
-    const sub = document.getElementById("subscriptionRate");
-    const crVal = parseFloat(cr.value) || 0;
-    const aovVal = parseFloat(aov.value) || 0;
-    const subVal = parseFloat(sub.value) || 0;
-    formData.conversionRate = crVal;
-    formData.aov = aovVal;
-    formData.subscriptionRate = subVal;
-    if (!(crVal >= 0 && crVal <= 100)) {
-      showFieldError(
-        cr,
-        "Enter a valid conversion rate between 0 and 100."
-      );
-      valid = false;
-    }
-    if (!(aovVal > 0)) {
-      showFieldError(aov, "Enter a valid AOV (> 0).");
-      valid = false;
-    }
-    if (subVal < 0 || subVal > 100) {
-      showFieldError(
-        sub,
-        "Enter a valid subscription rate between 0 and 100, or leave blank."
-      );
-      valid = false;
-    }
-    return valid;
-  }
-  if (stepId === "step5") {
-    let valid = true;
-    const urlEl = document.getElementById("websiteUrl");
-    const pageTypeEl = document.getElementById("pageType");
-    const industryEl = document.getElementById("industry");
-    formData.websiteUrl = urlEl.value;
-    formData.pageType = pageTypeEl.value;
-    formData.industry = industryEl.value;
-    let okUrl = true;
-    try {
-      const u = new URL(urlEl.value);
-      if (!/^https?:$/.test(u.protocol)) okUrl = false;
-      if (!u.hostname.includes(".")) okUrl = false;
-    } catch (e) {
-      okUrl = false;
-    }
-    if (!okUrl) {
-      showFieldError(urlEl, "Please enter a valid URL[](https://...)");
-      valid = false;
-    }
-    if (!pageTypeEl.value) {
-      pageTypeEl.classList.add("input-error");
-      const e1 = document.getElementById("err-pageType");
-      e1.textContent = "Please select a page type.";
-      e1.style.display = "block";
-      valid = false;
-    }
-    if (!industryEl.value) {
-      industryEl.classList.add("input-error");
-      const e2 = document.getElementById("err-industry");
-      e2.textContent = "Please select an industry.";
-      e2.style.display = "block";
-      valid = false;
-    }
-    pageTypeEl.addEventListener("change", () => {
-      pageTypeEl.classList.remove("input-error");
-      document.getElementById("err-pageType").style.display = "none";
-    });
-    industryEl.addEventListener("change", () => {
-      industryEl.classList.remove("input-error");
-      document.getElementById("err-industry").style.display = "none";
-    });
-    return valid;
-  }
-  return true;
-}
+function randomizeStep7() {
+        const total = Math.floor(Math.random() * (30 - 15 + 1)) + 15;
+        const high = Math.floor(total * 0.3 + Math.random() * 2);
+        const medium = Math.floor(total * 0.4 + Math.random() * 2);
+        const low = total - (high + medium);
+        const domain = document.getElementById("userDomain").textContent;
+        document.getElementById("improvementsText").innerHTML =
+          `AI has detected <strong>${total} improvements</strong> on 
+          <span id="userDomain">${domain}</span>`;
+        document.getElementById("highIssues").textContent =
+          `🔴 A total of ${high} High priority issues were found`;
+        document.getElementById("mediumIssues").textContent =
+          `🟡 A total of ${medium} medium priority issues were found`;
+        document.getElementById("lowIssues").textContent =
+          `🟢 A total of ${low} quick wins were found`;
+        document.getElementById("pxlPipeline").textContent =
+          `A full split-test pipeline with ${total} using the PXL framework has been created for you and is available in your audit`;
+      }
 
-// Validate name, email, phone on Step 7
-function validateLeadForm() {
-  const nameEl = document.getElementById('userName');
-  const emailEl = document.getElementById('userEmail');
-  const phoneEl = document.getElementById('userPhone');
-
-  [nameEl, emailEl, phoneEl].forEach(clearFieldError);
-
-  let valid = true;
-
-  const nameVal = nameEl.value.trim();
-  if (!nameVal) {
-    showFieldError(nameEl, 'Please enter your name.');
-    valid = false;
-  }
-
-  const emailVal = emailEl.value.trim();
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
-  if (!emailOk) {
-    showFieldError(emailEl, 'Enter a valid email address.');
-    valid = false;
-  }
-
-  const phoneVal = phoneEl.value.trim();
-  const phoneDigits = phoneVal.replace(/\D/g, '');
-  if (phoneDigits.length < 7) {
-    showFieldError(phoneEl, 'Enter a valid phone number.');
-    valid = false;
-  }
-
-  if (valid) {
-    formData.name = nameVal;
-    formData.email = emailVal;
-    formData.phone = phoneVal;
-  }
-  return valid;
-}
-
-const analysisItems = [
-  "Crawling your website structure",
-  "Analyzing copy related issue",
-  "Scanning for UX related issues bugs",
-  "Conducting full CRO Audit benchmarking",
-];
-
-function buildAnalysisList() {
-  const list = document.getElementById("analysisList");
-  list.innerHTML = "";
-  analysisItems.forEach((txt, i) => {
-    const li = document.createElement("li");
-    li.className = "analysis-item " + (i === 0 ? "active" : "pending");
-    li.innerHTML = `<span class="status-icon"></span><span class="analysis-text">${txt}</span>`;
-    list.appendChild(li);
-  });
-}
-
-function setAnalysisState(stepIndex) {
-  const items = document.querySelectorAll("#analysisList .analysis-item");
-  const aria = document.getElementById("ariaLive");
-  items.forEach((li, i) => {
-    li.classList.remove("pending", "active", "done");
-    if (i < stepIndex) li.classList.add("done");
-    else if (i === stepIndex) li.classList.add("active");
-    else li.classList.add("pending");
-  });
-  const activeItem = items[stepIndex];
-  if (activeItem && aria) {
-    aria.textContent =
-      "Now: " + activeItem.querySelector(".analysis-text").textContent;
-  }
-}
-
-function calculateUplift() {
-  const industry = formData.industry || 'other';
-  const benchmarkRate = benchmarkConversionRates[industry] || 2.5;
-  const currentRate = formData.conversionRate || 0;
-  const monthlyRevenue = formData.monthlyRevenue || 0;
-  const aov = formData.aov || 0;
-
-  // Calculate number of monthly visitors
-  const monthlyOrders = monthlyRevenue / aov;
-  const monthlyVisitors = monthlyOrders / (currentRate / 100);
-
-  // Calculate potential uplift
-  let upliftRate = 0;
-  if (currentRate < benchmarkRate) {
-    upliftRate = benchmarkRate - currentRate;
-  }
-  const potentialOrders = monthlyVisitors * (upliftRate / 100);
-  const revenueUplift = potentialOrders * aov;
-  const costOfInaction = revenueUplift / 6; // Assuming 6 months to achieve full potential
-
-  // Update Step 7 display
-  document.getElementById('currentConversionRate').textContent = currentRate.toFixed(2) + '%';
-  document.getElementById('benchmarkConversionRate').textContent = benchmarkRate.toFixed(2) + '%';
-  document.getElementById('conversionRateUplift').textContent = upliftRate.toFixed(2) + '%';
-  document.getElementById('revenuePotential').textContent = '$' + revenueUplift.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-  document.getElementById('costInaction').textContent = '$' + costOfInaction.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-  document.getElementById('mainMetric').textContent = formData.challenge === 'low-conversion' ? 'Conversion Rate' : formData.challenge === 'low-aov' ? 'Average Order Value' : 'Subscription Rate';
-}
-
-function startAnalysis() {
-  cancelAnalysis();
-  currentStep = 6;
-  showStep(currentStep);
-  buildAnalysisList();
-
-  const websiteUrl = document.getElementById("websiteUrl")?.value || "https://www.yourstore.com";
-  document.getElementById("analyzing-url").textContent = websiteUrl;
-  document.getElementById("browser-url").textContent = websiteUrl;
-
-  let domain = "yourstore.com";
-  try {
-    domain = new URL(websiteUrl).hostname;
-  } catch (e) {
-    console.error("Invalid URL:", websiteUrl);
-  }
-  document.getElementById("userDomain").textContent = domain;
-
-  // Load high-resolution screenshot of hero section
-  const screenshotUrl = `https://image.thum.io/get/width/1200/crop/600/noanimate/wait/2/${websiteUrl}`;
-  const screenshotImg = document.getElementById("screenshot");
-  const step7ScreenshotImg = document.getElementById("step7-screenshot");
-  
-  // Load screenshot directly
-  screenshotImg.src = screenshotUrl;
-  step7ScreenshotImg.src = screenshotUrl;
-
-  // Debug image loading
-  screenshotImg.onload = () => {
-    console.log("Screenshot loaded successfully:", screenshotUrl);
-  };
-  screenshotImg.onerror = () => {
-    console.error("Failed to load screenshot:", screenshotUrl);
-    screenshotImg.src = "https://via.placeholder.com/900x400?text=Screenshot+Unavailable";
-    step7ScreenshotImg.src = "https://via.placeholder.com/900x400?text=Screenshot+Unavailable";
-  };
-
-  const minMs = 10000,
-    maxMs = 20000;
-  const totalMs = Math.floor(minMs + Math.random() * (maxMs - minMs));
-  analysis.running = true;
-
-  const stepsCount = analysisItems.length;
-  const weights = Array.from(
-    { length: stepsCount },
-    () => 0.8 + Math.random() * 1.2
-  );
-  const wSum = weights.reduce((a, b) => a + b, 0);
-  const durations = weights.map((w) => Math.round((w / wSum) * totalMs));
-  const sumExceptLast = durations.slice(0, -1).reduce((a, b) => a + b, 0);
-  durations[durations.length - 1] = totalMs - sumExceptLast;
-
-  let acc = 0;
-  for (let i = 0; i < stepsCount; i++) {
-    analysis.timeouts.push(setTimeout(() => setAnalysisState(i), acc));
-    acc += durations[i];
-  }
-  analysis.timeouts.push(
-    setTimeout(() => {
-      if (!analysis.running) return;
-      analysis.running = false;
-      currentStep = 7;
-      calculateUplift();
-      showStep(currentStep);
-    }, totalMs + 120)
-  );
-
-  const timeLeft = document.getElementById("timeLeft");
-  let remainingMs = totalMs;
-  timeLeft.textContent = (remainingMs / 1000).toFixed(1) + "s";
-  analysis.countdownId = setInterval(() => {
-    remainingMs -= 100;
-    if (remainingMs <= 0) {
-      timeLeft.textContent = "0s";
-      clearInterval(analysis.countdownId);
-      return;
-    }
-    timeLeft.textContent =
-      (Math.ceil(remainingMs / 100) / 10).toFixed(1).replace(/\.0$/, "") + "s";
-  }, 100);
-}
-// Calendly loader with prefill support
-function loadCalendlyWidget(prefill = {}) {
-  const step7 = document.getElementById("step7");
-  step7.innerHTML = ""; // Replace Step 7 with Calendly embed
-  step7.classList.remove("no-scroll");
-
-  // Add the text above the Calendly widget
-  const textElement = document.createElement("h2");
-  textElement.textContent = "Book a quick 20 minute call with us get a walkthrough on how to fix all your issues";
-  textElement.style.textAlign = "center";
-  textElement.style.marginBottom = "20px";
-  step7.appendChild(textElement);
-
-  const calendlyContainer = document.createElement("div");
-  calendlyContainer.className = "calendly-container";
-  calendlyContainer.style.marginTop = "20px";
-
-  const calendlyDiv = document.createElement("div");
-  calendlyDiv.id = "calendlyInlineContainer";
-  calendlyDiv.style.minWidth = "320px";
-  calendlyDiv.style.height = "700px";
-
-  calendlyContainer.appendChild(calendlyDiv);
-  step7.appendChild(calendlyContainer);
-
-  const calendlyUrl = "https://calendly.com/d/cv3b-wzr-hvc/purplefire-s-cro-audit-strategy-call?hide_gdpr_banner=1";
-
-  function initWidget() {
-    if (window.Calendly && typeof window.Calendly.initInlineWidget === "function") {
-      window.Calendly.initInlineWidget({
-        url: calendlyUrl,
-        parentElement: calendlyDiv,
-        prefill: {
-          name: prefill.name || "",
-          email: prefill.email || "",
-          customAnswers: {
-            a1: prefill.phone || ""
-          }
+      document.addEventListener("DOMContentLoaded", function () {
+        const industrySelect = document.getElementById("industry");
+        if (industrySelect) {
+          new Choices(industrySelect, {
+            searchEnabled: true,
+            itemSelectText: "",
+            shouldSort: false,
+          });
+        }
+        // Run randomizeStep7 when the page loads if step7 is active
+        if (document.getElementById("step7").classList.contains("active")) {
+          randomizeStep7();
         }
       });
-    }
+  // Optional: Reset counters to 0
+  function resetCounters() {
+    const elements = ["overallCROScore", "uxScore", "aovScore", "copyMessagingScore"];
+    elements.forEach(id => {
+      const element = document.getElementById(id);
+      if (element) element.textContent = "0";
+    });
   }
-
-  // Load Calendly script if not present, then init
-  if (!document.querySelector('script[src="https://assets.calendly.com/assets/external/widget.js"]')) {
-    const script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = "https://assets.calendly.com/assets/external/widget.js";
-    script.async = true;
-    script.onload = initWidget;
-    document.body.appendChild(script);
-  } else {
-    initWidget();
-  }
-}
-
-// Button click handlers
-document.querySelectorAll(".cta-button").forEach((btn) => {
-  btn.addEventListener("click", (e) => {
-    e.preventDefault();
-    const stepId = btn.closest(".step").id;
-    if (!validateStep(stepId)) return;
-    let cb = null;
-    if (
-      stepId === "step1" ||
-      stepId === "step2" ||
-      stepId === "step3" ||
-      stepId === "step4"
-    ) {
-      cb = nextStep;
-    } else if (stepId === "step5") {
-      cb = startAnalysis;
-    } else if (stepId === "step7") {
-      if (!validateLeadForm()) return;
-      cb = () => loadCalendlyWidget({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone
-      });
-    }
-    if (cb) cb();
-  });
-});
-
-function createBackButtons() {
-  steps.forEach((step) => {
-    if (step.id !== "step1" && !['step6', 'step7'].includes(step.id) && !step.querySelector(".back-button")) {
-      const backBtn = document.createElement("button");
-      backBtn.className = "back-button";
-      backBtn.type = "button";
-      backBtn.innerHTML = "← Back";
-      step.insertBefore(backBtn, step.firstElementChild);
-      backBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        previousStep();
+document.addEventListener("DOMContentLoaded", function () {
+    const industrySelect = document.getElementById("industry");
+    if (industrySelect) {
+      new Choices(industrySelect, {
+        searchEnabled: true,   // Enable search inside dropdown
+        itemSelectText: "",    // Remove "Press to select" text
+        shouldSort: false,     // Keep original order
       });
     }
   });
-}
-createBackButtons();
+  // ================= EXISTING FORM LOGIC =================
+  // Industry data
+  const industries = {
+    fashion_apparel: {
+      baseline: { cvr: 0.019, aov: 196 },
+      multipliers: {
+        tier1: { cvr: 0.8, aov: 0.95 },
+        tier2: { cvr: 1.0, aov: 1.05 },
+        tier3: { cvr: 1.2, aov: 1.15 },
+      },
+      stretch: { cvr: 1.35, aov: 1.1 },
+      rules: {
+        cvr_if_below: "Potential_CVR = Benchmark_CVR * 1.35",
+        cvr_if_above: "Potential_CVR = Current_CVR * (1 + Rand(0.15, 0.30))",
+        aov_if_below: "Potential_AOV = Benchmark_AOV",
+        aov_if_above: "Potential_AOV = Current_AOV * 1.10",
+      },
+      seasonality: 1.2,
+    },
+    beauty_personalcare: {
+      baseline: { cvr: [0.02, 0.035], aov: 71 },
+      multipliers: {
+        tier1: { cvr: 0.8, aov: 0.95 },
+        tier2: { cvr: 1.0, aov: 1.05 },
+        tier3: { cvr: 1.2, aov: 1.15 },
+      },
+      stretch: { cvr: 1.35, aov: 1.1 },
+      rules: {
+        cvr_if_below: "Potential_CVR = Benchmark_CVR * 1.35",
+        cvr_if_above: "Potential_CVR = Current_CVR * (1 + Rand(0.15, 0.30))",
+        aov_if_below: "Potential_AOV = Benchmark_AOV",
+        aov_if_above: "Potential_AOV = Current_AOV * 1.10",
+      },
+      seasonality: 1.2,
+    },
+    health_wellness: {
+      baseline: { cvr: 0.036, aov: 54 },
+      multipliers: {
+        tier1: { cvr: 0.8, aov: 0.95 },
+        tier2: { cvr: 1.0, aov: 1.05 },
+        tier3: { cvr: 1.2, aov: 1.15 },
+      },
+      stretch: { cvr: 1.35, aov: 1.1 },
+      rules: {
+        cvr_if_below: "Potential_CVR = Benchmark_CVR * 1.35",
+        cvr_if_above: "Potential_CVR = Current_CVR * (1 + Rand(0.15, 0.30))",
+        aov_if_below: "Potential_AOV = Benchmark_AOV",
+        aov_if_above: "Potential_AOV = Current_AOV * 1.10",
+      },
+      seasonality: 1.1,
+    },
+    food_beverage: {
+      baseline: { cvr: 0.015, aov: 114 },
+      multipliers: {
+        tier1: { cvr: 0.8, aov: 0.95 },
+        tier2: { cvr: 1.0, aov: 1.05 },
+        tier3: { cvr: 1.2, aov: 1.15 },
+      },
+      stretch: { cvr: 1.35, aov: 1.1 },
+      rules: {
+        cvr_if_below: "Potential_CVR = Benchmark_CVR * 1.35",
+        cvr_if_above: "Potential_CVR = Current_CVR * (1 + Rand(0.15, 0.30))",
+        aov_if_below: "Potential_AOV = Benchmark_AOV",
+        aov_if_above: "Potential_AOV = Current_AOV * 1.10",
+      },
+      seasonality: 1.1,
+    },
+    home_furniture: {
+      baseline: { cvr: [0.006, 0.01], aov: 253 },
+      multipliers: {
+        tier1: { cvr: 0.8, aov: 0.95 },
+        tier2: { cvr: 1.0, aov: 1.05 },
+        tier3: { cvr: 1.2, aov: 1.15 },
+      },
+      stretch: { cvr: 1.35, aov: 1.1 },
+      rules: {
+        cvr_if_below: "Potential_CVR = Benchmark_CVR * 1.35",
+        cvr_if_above: "Potential_CVR = Current_CVR * (1 + Rand(0.15, 0.30))",
+        aov_if_below: "Potential_AOV = Benchmark_AOV",
+        aov_if_above: "Potential_AOV = Current_AOV * 1.10",
+      },
+      seasonality: 1.15,
+    },
+    electronics: {
+      baseline: { cvr: 0.018, aov: 170 },
+      multipliers: {
+        tier1: { cvr: 0.8, aov: 0.95 },
+        tier2: { cvr: 1.0, aov: 1.05 },
+        tier3: { cvr: 1.2, aov: 1.15 },
+      },
+      stretch: { cvr: 1.35, aov: 1.1 },
+      rules: {
+        cvr_if_below: "Potential_CVR = Benchmark_CVR * 1.35",
+        cvr_if_above: "Potential_CVR = Current_CVR * (1 + Rand(0.15, 0.30))",
+        aov_if_below: "Potential_AOV = Benchmark_AOV",
+        aov_if_above: "Potential_AOV = Current_AOV * 1.10",
+      },
+      seasonality: 1.15,
+    },
+    jewelry_accessories: {
+      baseline: { cvr: [0.009, 0.012], aov: 436 },
+      multipliers: {
+        tier1: { cvr: 0.8, aov: 0.95 },
+        tier2: { cvr: 1.0, aov: 1.05 },
+        tier3: { cvr: 1.2, aov: 1.15 },
+      },
+      stretch: { cvr: 1.35, aov: 1.1 },
+      rules: {
+        cvr_if_below: "Potential_CVR = Benchmark_CVR * 1.35",
+        cvr_if_above: "Potential_CVR = Current_CVR * (1 + Rand(0.15, 0.30))",
+        aov_if_below: "Potential_AOV = Benchmark_AOV",
+        aov_if_above: "Potential_AOV = Current_AOV * 1.10",
+      },
+      seasonality: 1.2,
+    },
+    pet_products: {
+      baseline: { cvr: 0.02, aov: 117 },
+      multipliers: {
+        tier1: { cvr: 0.8, aov: 0.95 },
+        tier2: { cvr: 1.0, aov: 1.05 },
+        tier3: { cvr: 1.2, aov: 1.15 },
+      },
+      stretch: { cvr: 1.35, aov: 1.1 },
+      rules: {
+        cvr_if_below: "Potential_CVR = Benchmark_CVR * 1.35",
+        cvr_if_above: "Potential_CVR = Current_CVR * (1 + Rand(0.15, 0.30))",
+        aov_if_below: "Potential_AOV = Benchmark_AOV",
+        aov_if_above: "Potential_AOV = Current_AOV * 1.10",
+      },
+      seasonality: 1.1,
+    },
+    baby_kids: {
+      baseline: { cvr: [0.008, 0.01], aov: 248 },
+      multipliers: {
+        tier1: { cvr: 0.8, aov: 0.95 },
+        tier2: { cvr: 1.0, aov: 1.05 },
+        tier3: { cvr: 1.2, aov: 1.15 },
+      },
+      stretch: { cvr: 1.35, aov: 1.1 },
+      rules: {
+        cvr_if_below: "Potential_CVR = Benchmark_CVR * 1.35",
+        cvr_if_above: "Potential_CVR = Current_CVR * (1 + Rand(0.15, 0.30))",
+        aov_if_below: "Potential_AOV = Benchmark_AOV",
+        aov_if_above: "Potential_AOV = Current_AOV * 1.10",
+      },
+      seasonality: 1.1,
+    },
+    outdoor_sports: {
+      baseline: { cvr: [0.014, 0.017], aov: 124 },
+      multipliers: {
+        tier1: { cvr: 0.8, aov: 0.95 },
+        tier2: { cvr: 1.0, aov: 1.05 },
+        tier3: { cvr: 1.2, aov: 1.15 },
+      },
+      stretch: { cvr: 1.35, aov: 1.1 },
+      rules: {
+        cvr_if_below: "Potential_CVR = Benchmark_CVR * 1.35",
+        cvr_if_above: "Potential_CVR = Current_CVR * (1 + Rand(0.15, 0.30))",
+        aov_if_below: "Potential_AOV = Benchmark_AOV",
+        aov_if_above: "Potential_AOV = Current_AOV * 1.10",
+      },
+      seasonality: 1.15,
+    },
+  };
 
-const sliderContent = [
-  { title: "Slides Of What Is Inside Of An AI Report", desc: "" },
-  { title: "Slides Of What Is Inside Of An AI Report", desc: "" },
-  { title: "Slides Of What Is Inside Of An AI Report", desc: "" },
-  { title: "Slides Of What Is Inside Of An AI Report", desc: "" },
-];
-let currentSlideIdx = 0;
-const slideContainer = document.getElementById("slideContent");
-function updateSlider() {
-  slideContainer.innerHTML = `<div class="slide-title">${sliderContent[currentSlideIdx].title}</div><div class="slide-desc">${sliderContent[currentSlideIdx].desc}</div>`;
-  currentSlideIdx = (currentSlideIdx + 1) % sliderContent.length;
-}
-updateSlider();
-setInterval(updateSlider, 4000);
+  let currentStep = 1;
+  const totalSteps = 7;
+  const steps = document.querySelectorAll(".step");
+  const progressSteps = document.querySelectorAll(".progress-step");
+  const progressContainer = document.getElementById("progressContainer");
 
-const websiteUrlInput = document.getElementById("websiteUrl");
-websiteUrlInput.addEventListener("input", (e) => {
-  let value = e.target.value.trim();
-  if (value && !/^https?:\/\//i.test(value)) {
-    if (!e.target.dataset.isProcessing) {
-      e.target.dataset.isProcessing = "true";
-      const cursorPosition = e.target.selectionStart;
-      const beforeCursor = value.slice(0, cursorPosition);
-      const afterCursor = value.slice(cursorPosition);
-      e.target.value = "https://" + value;
-      const newCursorPosition = cursorPosition + "https://".length;
-      e.target.setSelectionRange(newCursorPosition, newCursorPosition);
+  const topProgressEl = document.getElementById("topProgress");
+  const currentStepText = document.getElementById("currentStepText");
+  const totalStepsText = document.getElementById("totalStepsText");
+  const progressFillEl = document.getElementById("progressFill");
+  const progressPercentEl = document.getElementById("progressPercent");
+  if (totalStepsText) totalStepsText.textContent = totalSteps;
+
+  const analysis = {
+    rafId: null,
+    timeouts: [], 
+    startTime: 0,
+    totalDuration: 0,
+    running: false,
+    countdownId: null,
+  };
+
+  // Industry mapping from form select to JSON keys
+  const industryMap = {
+    fashion: "fashion_apparel",
+    health: "health_wellness",
+    home: "home_furniture",
+    electronics: "electronics",
+    food: "food_beverage",
+    jewelry: "jewelry_accessories",
+    sports: "outdoor_sports",
+    beauty: "beauty_personalcare",
+    pet: "pet_products",
+    baby: "baby_kids",
+    other: "fashion_apparel",
+  };
+
+  // Store form data
+  let formData = {
+    challenge: "",
+    monthlyRevenue: 0,
+    monthlyAdSpend: 0,
+    conversionRate: 0,
+    aov: 0,
+    subscriptionRate: 0,
+    websiteUrl: "",
+    pageType: "",
+    industry: "",
+    name: "",
+    email: "",
+    phone: "",
+  };
+
+  function formatCurrency(inputEl) {
+    let value = inputEl.value.replace(/[^0-9.]/g, "");
+    if (value === "" || isNaN(parseFloat(value))) {
+      inputEl.value = "";
+      return;
+    }
+    const num = parseFloat(value);
+    let formatted = num.toLocaleString("en-US", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    });
+    if (formatted.endsWith(".00")) {
+      formatted = formatted.slice(0, -3); // Remove '.00'
+    }
+    inputEl.value = "$" + formatted;
+  }
+
+  function parseCurrency(value) {
+    return parseFloat(value.replace(/[^0-9.]/g, "")) || 0;
+  }
+
+  // Apply currency formatting to Step 3 inputs
+  ["monthlyRevenue", "monthlyAdSpend"].forEach((id) => {
+    const input = document.getElementById(id);
+    input.addEventListener("input", () => {
+      clearFieldError(input);
+    });
+    input.addEventListener("blur", () => {
+      if (input.value.trim() === "") return;
+      formatCurrency(input);
+    });
+    let typingTimer;
+    input.addEventListener("input", () => {
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(() => {
+        if (input.value.trim() !== "") {
+          formatCurrency(input);
+        }
+      }, 1000);
+    });
+  });
+
+  function cancelAnalysis() {
+    if (analysis.rafId) cancelAnimationFrame(analysis.rafId);
+    analysis.timeouts.forEach((t) => clearTimeout(t));
+    analysis.timeouts = [];
+    if (analysis.countdownId) clearInterval(analysis.countdownId);
+    analysis.running = false;
+  }
+
+  function showStep(stepNumber) {
+    steps.forEach((s) => s.classList.remove("active"));
+    const active = document.getElementById(`step${stepNumber}`);
+    if (active) active.classList.add("active");
+
+    progressContainer.style.display =
+      stepNumber >= 2 && stepNumber <= 5 ? "flex" : "none";
+
+    progressSteps.forEach((p, i) => {
+      const idx = i + 2;
+      p.classList.remove("active", "completed");
+      if (stepNumber > idx) p.classList.add("completed");
+      else if (stepNumber === idx) p.classList.add("active");
+    });
+
+    topProgressEl.style.display = "block";
+    currentStepText.textContent = Math.min(stepNumber, totalSteps);
+    const percent = Math.round(((stepNumber - 1) / (totalSteps - 1)) * 100);
+    progressFillEl.style.width = percent + "%";
+    progressPercentEl.textContent = percent + "%";
+
+    // *** TRIGGER SCORECARD ANIMATION WHEN STEP 7 IS SHOWN ***
+    if (stepNumber === 7) {
       setTimeout(() => {
-        e.target.dataset.isProcessing = "";
-      }, 0);
+        updateScoreCard();
+      }, 500); // Small delay to ensure elements are rendered
     }
   }
-});
-    </script>
+
+  function nextStep() {
+    if (currentStep < totalSteps) {
+      currentStep++;
+      showStep(currentStep);
+    }
+  }
+
+  function previousStep() {
+    cancelAnalysis();
+    if (currentStep > 1) {
+      currentStep--;
+      showStep(currentStep);
+    }
+  }
+
+  function selectChallenge(el, value) {
+    document
+      .querySelectorAll(".challenge-card")
+      .forEach((c) => c.classList.remove("selected"));
+    el.classList.add("selected");
+    formData.challenge = value;
+  }
+
+  function showFieldError(inputEl, msg) {
+    if (!inputEl) return;
+    inputEl.classList.add("input-error");
+    const err = document.getElementById("err-" + inputEl.id);
+    if (err) {
+      err.textContent = msg;
+      err.style.display = "block";
+    }
+  }
+
+  function clearFieldError(inputEl) {
+    if (!inputEl) return;
+    inputEl.classList.remove("input-error");
+    const err = document.getElementById("err-" + inputEl.id);
+    if (err) {
+      err.textContent = "";
+      err.style.display = "none";
+    }
+  }
+
+  document.querySelectorAll("input,select").forEach((el) => {
+    el.addEventListener("input", () => clearFieldError(el));
+    el.addEventListener("change", () => clearFieldError(el));
+  });
+
+  function validateStep(stepId) {
+    if (stepId === "step1") return true;
+    if (stepId === "step2") {
+      const selected = document.querySelector(".challenge-card.selected");
+      const err = document.getElementById("challengeError");
+      if (!selected) {
+        err.style.display = "block";
+        return false;
+      }
+      err.style.display = "none";
+      return true;
+    }
+    if (stepId === "step3") {
+      let valid = true;
+      const rev = document.getElementById("monthlyRevenue");
+      const ad = document.getElementById("monthlyAdSpend");
+      const revVal = parseCurrency(rev.value);
+      const adVal = parseCurrency(ad.value);
+      formData.monthlyRevenue = revVal;
+      formData.monthlyAdSpend = adVal;
+      return valid;
+    }
+    if (stepId === "step4") {
+      let valid = true;
+      const cr = document.getElementById("conversionRate");
+      const aov = document.getElementById("aov");
+      const sub = document.getElementById("subscriptionRate");
+
+      const crVal = parseFloat(cr.value) || 0;
+      formData.conversionRate = crVal;
+
+      if (crVal < 0 || crVal > 100) {
+        showFieldError(
+          cr,
+          "Enter a valid conversion rate between 0 and 100."
+        );
+        valid = false;
+      } else {
+        clearFieldError(cr);
+      }
+
+      const aovVal = parseFloat(aov.value) || 0;
+      formData.aov = aovVal;
+      if (!(aovVal > 0)) {
+        showFieldError(aov, "Enter a valid AOV (> 0).");
+        valid = false;
+      }
+
+      const subVal = parseFloat(sub.value) || 0;
+      formData.subscriptionRate = subVal;
+      if (subVal < 0 || subVal > 100) {
+        showFieldError(
+          sub,
+          "Enter a valid subscription rate between 0 and 100, or leave blank."
+        );
+        valid = false;
+      }
+
+      return valid;
+    }
+
+    if (stepId === "step5") {
+      let valid = true;
+      const urlEl = document.getElementById("websiteUrl");
+      const pageTypeEl = document.getElementById("pageType");
+      const industryEl = document.getElementById("industry");
+      formData.websiteUrl = urlEl.value;
+      formData.pageType = pageTypeEl.value;
+      formData.industry = industryEl.value;
+      let okUrl = true;
+      try {
+        const u = new URL(urlEl.value);
+        if (!/^https?:$/.test(u.protocol)) okUrl = false;
+        if (!u.hostname.includes(".")) okUrl = false;
+      } catch (e) {
+        okUrl = false;
+      }
+      if (!okUrl) {
+        showFieldError(urlEl, "Please enter a valid URL (https://...)");
+        valid = false;
+      }
+      if (!pageTypeEl.value) {
+        pageTypeEl.classList.add("input-error");
+        const e1 = document.getElementById("err-pageType");
+        e1.textContent = "Please select a page type.";
+        e1.style.display = "block";
+        valid = false;
+      }
+      if (!industryEl.value) {
+        industryEl.classList.add("input-error");
+        const e2 = document.getElementById("err-industry");
+        e2.textContent = "Please select an industry.";
+        e2.style.display = "block";
+        valid = false;
+      }
+      pageTypeEl.addEventListener("change", () => {
+        pageTypeEl.classList.remove("input-error");
+        document.getElementById("err-pageType").style.display = "none";
+      });
+      industryEl.addEventListener("change", () => {
+        industryEl.classList.remove("input-error");
+        document.getElementById("err-industry").style.display = "none";
+      });
+      return valid;
+    }
+    return true;
+  }
+
+  function validateLeadForm() {
+    const nameEl = document.getElementById("userName");
+    const emailEl = document.getElementById("userEmail");
+    const phoneEl = document.getElementById("userPhone");
+
+    [nameEl, emailEl, phoneEl].forEach(clearFieldError);
+
+    let valid = true;
+
+    const nameVal = nameEl.value.trim();
+    if (!nameVal) {
+      showFieldError(nameEl, "Please enter your name.");
+      valid = false;
+    }
+
+    const emailVal = emailEl.value.trim();
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+    if (!emailOk) {
+      showFieldError(emailEl, "Enter a valid email address.");
+      valid = false;
+    }
+
+    const phoneVal = phoneEl.value.trim();
+    const phoneDigits = phoneVal.replace(/\D/g, "");
+    if (phoneDigits.length < 7) {
+      showFieldError(phoneEl, "Enter a valid phone number.");
+      valid = false;
+    }
+
+    if (valid) {
+      formData.name = nameVal;
+      formData.email = emailVal;
+      formData.phone = phoneVal;
+    }
+    return valid;
+  }
+
+  const analysisItems = [
+    "Crawling your website structure",
+    "Analyzing copy related issue",
+    "Scanning for UX related issues bugs",
+    "Conducting full CRO Audit benchmarking",
+  ];
+
+  function buildAnalysisList() {
+    const list = document.getElementById("analysisList");
+    list.innerHTML = "";
+    analysisItems.forEach((txt, i) => {
+      const li = document.createElement("li");
+      li.className = "analysis-item " + (i === 0 ? "active" : "pending");
+      li.innerHTML = `<span class="status-icon"></span><span class="analysis-text">${txt}</span>`;
+      list.appendChild(li);
+    });
+  }
+
+  function setAnalysisState(stepIndex) {
+    const items = document.querySelectorAll("#analysisList .analysis-item");
+    const aria = document.getElementById("ariaLive");
+    items.forEach((li, i) => {
+      li.classList.remove("pending", "active", "done");
+      if (i < stepIndex) li.classList.add("done");
+      else if (i === stepIndex) li.classList.add("active");
+      else li.classList.add("pending");
+    });
+    const activeItem = items[stepIndex];
+    if (activeItem && aria) {
+      aria.textContent =
+        "Now: " + activeItem.querySelector(".analysis-text").textContent;
+    }
+  }
+
+  function calculateUplift() {
+    const industry = formData.industry || "other";
+    const currentRatePercent = parseFloat(formData.conversionRate) || 0;
+    const monthlyRevenue = parseFloat(formData.monthlyRevenue) || 0;
+    const currentAov = parseFloat(formData.aov) || 0;
+    const currentCvrDecimal = currentRatePercent / 100;
+
+    const indKey = industryMap[industry] || "fashion_apparel";
+    const ind = industries[indKey] || industries["fashion_apparel"];
+
+    let tier =
+      monthlyRevenue < 100000
+        ? "tier1"
+        : monthlyRevenue < 500000
+        ? "tier2"
+        : "tier3";
+
+    let benchmarkCvrDecimal = Array.isArray(ind.baseline.cvr)
+      ? (ind.baseline.cvr[0] + ind.baseline.cvr[1]) / 2
+      : ind.baseline.cvr;
+    benchmarkCvrDecimal *= ind.multipliers[tier].cvr;
+    let benchmarkAov = ind.baseline.aov * ind.multipliers[tier].aov;
+
+    let potentialCvrDecimal;
+    if (currentCvrDecimal < benchmarkCvrDecimal) {
+      potentialCvrDecimal = benchmarkCvrDecimal * 1.35;
+    } else {
+      const randUplift = 0.15 + Math.random() * 0.15;
+      potentialCvrDecimal = currentCvrDecimal * (1 + randUplift);
+    }
+
+    let potentialAov;
+    if (currentAov < benchmarkAov) {
+      potentialAov = benchmarkAov;
+    } else {
+      potentialAov = currentAov * 1.1;
+    }
+
+    let monthlyVisitors = 0,
+      revenueUplift = 0,
+      yearlyUplift = 0,
+      costOfInaction = 0;
+
+    if (currentAov > 0 && currentCvrDecimal > 0 && monthlyRevenue > 0) {
+      monthlyVisitors = monthlyRevenue / (currentCvrDecimal * currentAov);
+      const potentialRevenue =
+        monthlyVisitors * potentialCvrDecimal * potentialAov;
+      revenueUplift = (potentialRevenue - monthlyRevenue) * ind.seasonality;
+
+      yearlyUplift = revenueUplift * 12;
+      costOfInaction = yearlyUplift / 12;
+    }
+
+    // Update UI
+    document.getElementById("currentConversionRate").textContent =
+      currentRatePercent.toFixed(2) + "%";
+    document.getElementById("benchmarkConversionRate").textContent =
+      (benchmarkCvrDecimal * 100).toFixed(2) + "%";
+    document.getElementById("conversionRateUplift").textContent =
+      ((potentialCvrDecimal - currentCvrDecimal) * 100).toFixed(2) + "%";
+    document.getElementById("currentAov").textContent =
+      "$" + currentAov.toLocaleString("en-US");
+    document.getElementById("potentialAov").textContent =
+      "$" + Math.round(potentialAov).toLocaleString("en-US");
+    document.getElementById("revenuePotential").textContent =
+      "$" + Math.round(revenueUplift).toLocaleString("en-US");
+
+    const yearlyEl = document.getElementById("yearlyPotential");
+    if (yearlyEl) {
+      yearlyEl.textContent =
+        "$" + Math.round(yearlyUplift).toLocaleString("en-US");
+    }
+
+    document.getElementById("costInaction").textContent =
+      "$" + Math.round(costOfInaction).toLocaleString("en-US");
+
+    const metricMap = {
+      "low-conversion": "Conversion Rate",
+      "low-aov": "Average Order Value",
+      "low-subscription": "Subscription Rate",
+    };
+    document.getElementById("mainMetric").textContent =
+      metricMap[formData.challenge] || "Conversion Rate";
+
+    // === NEW PART: Step7 improvements randomize (15–30) ===
+    const randomImprovements = Math.floor(Math.random() * (30 - 15 + 1)) + 15;
+    const domain = document.getElementById("userDomain").textContent;
+    const step7Desc = document.querySelector("#step7 .description");
+    if (step7Desc) {
+      step7Desc.innerHTML = `AI has detected <strong>${randomImprovements} improvements</strong> on 
+        <span id="userDomain">${domain}</span>`;
+    }
+  }
+
+  function startAnalysis() {
+    cancelAnalysis();
+    currentStep = 6;
+    showStep(currentStep);
+    buildAnalysisList();
+
+    const websiteUrl =
+      document.getElementById("websiteUrl")?.value ||
+      "https://www.yourstore.com";
+    document.getElementById("analyzing-url").textContent = websiteUrl;
+    document.getElementById("browser-url").textContent = websiteUrl;
+
+    let domain = "yourstore.com";
+    try {
+      domain = new URL(websiteUrl).hostname;
+    } catch (e) {
+      console.error("Invalid URL:", websiteUrl);
+    }
+    document.getElementById("userDomain").textContent = domain;
+
+    const screenshotUrl = `https://image.thum.io/get/width/1200/crop/600/noanimate/wait/2/${websiteUrl}`;
+    const screenshotImg = document.getElementById("screenshot");
+    const step7ScreenshotImg = document.getElementById("step7-screenshot");
+
+    screenshotImg.src = screenshotUrl;
+    step7ScreenshotImg.src = screenshotUrl;
+
+    screenshotImg.onload = () => {
+      console.log("Screenshot loaded successfully:", screenshotUrl);
+    };
+    screenshotImg.onerror = () => {
+      console.error("Failed to load screenshot:", screenshotUrl);
+      screenshotImg.src =
+        "https://via.placeholder.com/900x400?text=Screenshot+Unavailable";
+      step7ScreenshotImg.src =
+        "https://via.placeholder.com/900x400?text=Screenshot+Unavailable";
+    };
+
+    const minMs = 10000,
+      maxMs = 20000;
+    const totalMs = Math.floor(minMs + Math.random() * (maxMs - minMs));
+    analysis.running = true;
+
+    const stepsCount = analysisItems.length;
+    const weights = Array.from(
+      { length: stepsCount },
+      () => 0.8 + Math.random() * 1.2
+    );
+    const wSum = weights.reduce((a, b) => a + b, 0);
+    const durations = weights.map((w) => Math.round((w / wSum) * totalMs));
+    const sumExceptLast = durations.slice(0, -1).reduce((a, b) => a + b, 0);
+    durations[durations.length - 1] = totalMs - sumExceptLast;
+
+    let acc = 0;
+    for (let i = 0; i < stepsCount; i++) {
+      analysis.timeouts.push(setTimeout(() => setAnalysisState(i), acc));
+      acc += durations[i];
+    }
+    analysis.timeouts.push(
+      setTimeout(() => {
+        if (!analysis.running) return;
+        analysis.running = false;
+        currentStep = 7;
+        calculateUplift();
+        showStep(currentStep);
+      }, totalMs + 120)
+
+    );
+
+    const timeLeft = document.getElementById("timeLeft");
+    let remainingMs = totalMs;
+    timeLeft.textContent = (remainingMs / 1000).toFixed(1) + "s";
+    analysis.countdownId = setInterval(() => {
+      remainingMs -= 100;
+      if (remainingMs <= 0) {
+        timeLeft.textContent = "0s";
+        clearInterval(analysis.countdownId);
+        return;
+      }
+      timeLeft.textContent =
+        (Math.ceil(remainingMs / 100) / 10).toFixed(1).replace(/\.0$/, "") +
+        "s";
+    }, 100);
+  }
+
+  function loadCalendlyWidget(prefill = {}) {
+    const step7 = document.getElementById("step7");
+    step7.innerHTML = "";
+    step7.classList.remove("no-scroll");
+
+    const textElement = document.createElement("h2");
+    textElement.textContent =
+      "Book a quick 20-minute call with us to get a walkthrough on how to fix all your issues";
+    textElement.style.textAlign = "center";
+    textElement.style.marginBottom = "20px";
+    step7.appendChild(textElement);
+
+    const calendlyContainer = document.createElement("div");
+    calendlyContainer.className = "calendly-container";
+    calendlyContainer.style.marginTop = "20px";
+
+    const calendlyDiv = document.createElement("div");
+    calendlyDiv.id = "calendlyInlineContainer";
+    calendlyDiv.style.minWidth = "320px";
+    calendlyDiv.style.height = "700px";
+    step7.classList.remove("no-scroll");
+
+    calendlyContainer.appendChild(calendlyDiv);
+    step7.appendChild(calendlyContainer);
+
+    const calendlyUrl =
+      "https://calendly.com/d/cv3b-wzr-hvc/purplefire-s-cro-audit-strategy-call?hide_gdpr_banner=1";
+
+    function initWidget() {
+      if (
+        window.Calendly &&
+        typeof window.Calendly.initInlineWidget === "function"
+      ) {
+        window.Calendly.initInlineWidget({
+          url: calendlyUrl,
+          parentElement: calendlyDiv,
+          prefill: {
+            name: prefill.name || "",
+            email: prefill.email || "",
+            customAnswers: {
+              a1: prefill.phone || "",
+            },
+          },
+        });
+      }
+    }
+
+    if (
+      !document.querySelector(
+        'script[src="https://assets.calendly.com/assets/external/widget.js"]'
+      )
+    ) {
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "https://assets.calendly.com/assets/external/widget.js";
+      script.async = true;
+      script.onload = initWidget;
+      document.body.appendChild(script);
+    } else {
+      initWidget();
+    }
+  }
+
+  document.querySelectorAll(".cta-button").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const stepId = btn.closest(".step").id;
+      if (!validateStep(stepId)) return;
+      let cb = null;
+      if (
+        stepId === "step1" ||
+        stepId === "step2" ||
+        stepId === "step3" ||
+        stepId === "step4"
+      ) {
+        cb = nextStep;
+      } else if (stepId === "step5") {
+        cb = startAnalysis;
+      } else if (stepId === "step7") {
+        if (!validateLeadForm()) return;
+        cb = () =>
+          loadCalendlyWidget({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+          });
+      }
+      if (cb) cb();
+    });
+  });
+
+  function createBackButtons() {
+    steps.forEach((step) => {
+      if (
+        step.id !== "step1" &&
+        !["step6", "step7"].includes(step.id) &&
+        !step.querySelector(".back-button")
+      ) {
+        const backBtn = document.createElement("button");
+        backBtn.className = "back-button";
+        backBtn.type = "button";
+        backBtn.innerHTML = "← Back";
+        step.insertBefore(backBtn, step.firstElementChild);
+        backBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          previousStep();
+        });
+      }
+    });
+  }
+  createBackButtons();
+
+
+
+  // ====== Card Slider (Auto-scroll) ======
+const cardSlider = document.getElementById("cardSlider");
+let currentCardIndex = 0;
+
+function slideCards() {
+  const cards = document.querySelectorAll("#cardSlider .card");
+  if (cards.length === 0) return;
+
+  currentCardIndex = (currentCardIndex + 1) % cards.length;
+  const offset = -currentCardIndex * 100; // Move by card width (100%)
+  cardSlider.style.transform = `translateX(${offset}%)`;
+}
+
+// Auto slide every 4 sec
+setInterval(slideCards, 4000);
+
+
+
+  const websiteUrlInput = document.getElementById("websiteUrl");
+  websiteUrlInput.addEventListener("input", (e) => {
+    let value = e.target.value.trim();
+    if (value && !/^https?:\/\//i.test(value)) {
+      if (!e.target.dataset.isProcessing) {
+        e.target.dataset.isProcessing = "true";
+        const cursorPosition = e.target.selectionStart;
+        const beforeCursor = value.slice(0, cursorPosition);
+        const afterCursor = value.slice(cursorPosition);
+        e.target.value = "https://" + value;
+        const newCursorPosition = cursorPosition + "https://".length;
+        e.target.setSelectionRange(newCursorPosition, newCursorPosition);
+        setTimeout(() => {
+          e.target.dataset.isProcessing = "";
+        }, 0);
+      }
+    }
+  });
+</script>
+
   </body>
 </html>
